@@ -38,27 +38,29 @@ export default function TasksTable({ initialTasks }: { initialTasks: Task[] }) {
           onCancel={handleCancel}
         />
       )}
-      <table>
-        <thead>
-          <tr>
-            <th>Task</th>
-            <th>Status</th>
-            <th>Priority</th>
-            <th>Due Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task) => (
-            <TaskRow
-              key={task.id}
-              {...task}
-              onEdit={() => handleEdit(task)}
-              onDelete={() => handleDelete(task.id)}
-            />
-          ))}
-        </tbody>
-      </table>
+      {!editingTask && (
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Due Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks.map((task) => (
+              <TaskRow
+                key={task.id}
+                {...task}
+                onEdit={() => handleEdit(task)}
+                onDelete={() => handleDelete(task.id)}
+              />
+            ))}
+          </tbody>
+        </table>
+      )}
     </>
   );
 }
