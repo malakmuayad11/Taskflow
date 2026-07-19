@@ -1,4 +1,4 @@
-import StatCard from "../StatCard.tsx";
+import StatCard from "./StatCard.tsx";
 import { getTasks } from "../../services/localStorageService.ts";
 
 export default function Statistics() {
