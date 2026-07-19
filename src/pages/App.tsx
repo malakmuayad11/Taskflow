@@ -1,17 +1,8 @@
 // import Statistics from "../components/statistics/Statistics.tsx";
 // import TaskRow from "../components/Tasks/TaskRow.tsx";
-import TasksTable from "../components/Tasks/TasksTable.tsx";
-import type { Task } from "../types/Task.ts";
-
-const tasks: Task[] = [
-  {
-    id: Date.now(),
-    title: "study",
-    priority: "Low",
-    status: "Todo",
-    dueDate: new Date(2026, 6, 28),
-  },
-];
+// import TasksTable from "../components/Tasks/TasksTable.tsx";
+import TasksList from "../components/Tasks/TasksList.tsx";
+import { getTasks } from "../services/localStorageService.ts";
 
 export default function App() {
   return (
@@ -23,6 +14,6 @@ export default function App() {
     //   onDelete={() => {}}
     //   onEdit={() => {}}
     // />
-    <TasksTable initialTasks={tasks} />
+    <TasksList initialTasks={getTasks()} />
   );
 }

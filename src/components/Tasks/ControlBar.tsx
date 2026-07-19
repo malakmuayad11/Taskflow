@@ -1,20 +1,23 @@
 import { useState } from "react";
-// import { addTask } from "../../services/localStorageService.ts";
 import type { Task } from "../../types/Task.ts";
 import AddEditTaskForm from "./AddEditTaskForm.tsx";
 
-export default function ControlBar({
-  onFilterChange,
-  onAdd,
-}: {
+type ControlBarProps = {
+  onSearch: (title: string) => void;
   onFilterChange: (value: string) => void;
   onAdd: (addedTask: Task) => void;
-}) {
+};
+
+export default function ControlBar({
+  onSearch,
+  onFilterChange,
+  onAdd,
+}: ControlBarProps) {
   const [isAddingTask, setIsAddingTask] = useState(false);
+  const [filter, setFilter] = useState("oldest");
 
   function handleSave(addedTask: Task) {
     onAdd(addedTask);
-    // addTask(addedTask);
     setIsAddingTask(false);
   }
 
@@ -33,9 +36,19 @@ export default function ControlBar({
       )}
       {!isAddingTask && (
         <div>
-          <input type="search" placeholder="Search tasks..." />
+          <input
+            type="search"
+            placeholder="Search tasks..."
+            onChange={(e) => onSearch(e.target.value.trim())}
+          />
           <label>Filters</label>
-          <select onChange={(e) => onFilterChange(e.target.value)}>
+          <select
+            value={filter}
+            onChange={(e) => {
+              onFilterChange(e.target.value);
+              setFilter(e.target.value.toLowerCase());
+            }}
+          >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
           </select>
