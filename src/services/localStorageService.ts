@@ -7,7 +7,7 @@ export function addTask(task: Task): void {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-export function editTask(task: Task): void {
+export function updateTask(task: Task): void {
   const index = tasks.findIndex((t) => t.id === task.id);
 
   if (index !== -1) {
