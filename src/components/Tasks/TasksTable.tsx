@@ -8,11 +8,20 @@ export default function TasksTable({ initialTasks }: { initialTasks: Task[] }) {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   function handleDelete(id: number) {
-    setTasks([...tasks].filter((task) => task.id !== id));
+    setTasks(tasks.filter((task) => task.id !== id));
   }
 
   function handleEdit(task: Task) {
     setEditingTask(task);
+  }
+  function handleUpdate(updatedTask: Task) {
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task,
+      ),
+    );
+
+    setEditingTask(null);
   }
 
   function handleCancel() {
@@ -25,7 +34,7 @@ export default function TasksTable({ initialTasks }: { initialTasks: Task[] }) {
         <AddEditTaskForm
           task={editingTask}
           isAddMode={false}
-          onEdit={handleEdit}
+          onSave={handleUpdate}
           onCancel={handleCancel}
         />
       )}
@@ -44,6 +53,7 @@ export default function TasksTable({ initialTasks }: { initialTasks: Task[] }) {
             <TaskRow
               key={task.id}
               {...task}
+              onEdit={() => handleEdit(task)}
               onDelete={() => handleDelete(task.id)}
             />
           ))}

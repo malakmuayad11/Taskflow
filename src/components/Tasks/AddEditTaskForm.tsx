@@ -4,16 +4,14 @@ import type { Task, TaskPriority, TaskStatus } from "../../types/Task";
 type AddEditTaskFormProps = {
   task?: Task;
   isAddMode: boolean;
-  onAdd?: (task: Task) => void;
-  onUpdate?: (task: Task) => void;
+  onSave: (task: Task) => void;
   onCancel: () => void;
 };
 
 export default function AddEditTaskForm({
   task,
   isAddMode,
-  onAdd,
-  onUpdate,
+  onSave,
   onCancel,
 }: AddEditTaskFormProps) {
   const [title, setTitle] = useState(task?.title ?? "");
@@ -26,8 +24,8 @@ export default function AddEditTaskForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (isAddMode && onAdd)
-      onAdd({
+    if (isAddMode)
+      onSave({
         id: Date.now(),
         title: title,
         priority: priority,
@@ -35,14 +33,16 @@ export default function AddEditTaskForm({
         dueDate: dueDate,
       });
 
-    if (!isAddMode && onUpdate && task)
-      onUpdate({
+    // Edit mode
+    if (!isAddMode && task) {
+      onSave({
         ...task,
         title,
         priority,
         status,
         dueDate,
       });
+    }
   };
 
   return (

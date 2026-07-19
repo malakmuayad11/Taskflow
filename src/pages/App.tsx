@@ -1,5 +1,17 @@
-import Statistics from "../components/statistics/Statistics.tsx";
+// import Statistics from "../components/statistics/Statistics.tsx";
 // import TaskRow from "../components/Tasks/TaskRow.tsx";
+import TasksTable from "../components/Tasks/TasksTable.tsx";
+import type { Task } from "../types/Task.ts";
+
+const tasks: Task[] = [
+  {
+    id: Date.now(),
+    title: "study",
+    priority: "Low",
+    status: "Todo",
+    dueDate: new Date(2026, 6, 28),
+  },
+];
 
 export default function App() {
   return (
@@ -11,6 +23,6 @@ export default function App() {
     //   onDelete={() => {}}
     //   onEdit={() => {}}
     // />
-    <Statistics />
+    <TasksTable initialTasks={tasks} />
   );
 }
