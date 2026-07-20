@@ -5,9 +5,11 @@ export default function TasksCompletionCard({ tasks }: { tasks: Task[] }) {
   const completionPercentage: number =
     tasks.length === 0
       ? 0
-      : (tasks.filter((task) => task.status === "Completed").length /
-          tasks.length) *
-        100;
+      : Math.round(
+          (tasks.filter((task) => task.status === "Completed").length /
+            tasks.length) *
+            100,
+        );
 
   const feedback: string =
     completionPercentage <= 25
