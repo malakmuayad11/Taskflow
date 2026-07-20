@@ -8,9 +8,11 @@ import {
   deleteTask,
 } from "../../services/localStorageService.ts";
 import AddEditTaskForm from "./AddEditTaskForm.tsx";
+import PaginationRow from "./PaginationRow.tsx";
+import { paginateArray } from "../../services/paginationService.tsx";
 
 export default function TasksList({ initialTasks }: { initialTasks: Task[] }) {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState(paginateArray(initialTasks, 1, 5));
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [search, setSearch] = useState("");
 
@@ -62,6 +64,10 @@ export default function TasksList({ initialTasks }: { initialTasks: Task[] }) {
     setEditingTask(null);
   }
 
+  function handleClick(pageNum: number) {
+    setTasks(paginateArray(initialTasks, pageNum, 5));
+  }
+
   return (
     <>
       {editingTask ? (
@@ -82,6 +88,10 @@ export default function TasksList({ initialTasks }: { initialTasks: Task[] }) {
             tasks={displayedTasks}
             onDelete={handleDelete}
             onEdit={handleEdit}
+          />
+          <PaginationRow
+            totalTasks={initialTasks.length}
+            onclick={handleClick}
           />
         </section>
       )}
