@@ -4,6 +4,7 @@
 import TasksList from "../components/Tasks/TasksList.tsx";
 import TasksCompletionCard from "../components/TasksOverview/TasksCompletionCard";
 import { getTasks } from "../services/localStorageService";
+import TasksByPriorityCard from "../components/TasksOverview/TasksByPriorityCard.tsx";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
     <>
       <TasksList initialTasks={getTasks()} />
       <TasksCompletionCard tasks={getTasks()} />
+      <TasksByPriorityCard tasks={getTasks()} />
     </>
   );
 }
