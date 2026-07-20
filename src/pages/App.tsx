@@ -2,7 +2,8 @@
 // import TaskRow from "../components/Tasks/TaskRow.tsx";
 // import TasksTable from "../components/Tasks/TasksTable.tsx";
 import TasksList from "../components/Tasks/TasksList.tsx";
-import { getTasks } from "../services/localStorageService.ts";
+import TasksCompletionCard from "../components/TasksOverview/TasksCompletionCard";
+import { getTasks } from "../services/localStorageService";
 
 export default function App() {
   return (
@@ -14,6 +15,9 @@ export default function App() {
     //   onDelete={() => {}}
     //   onEdit={() => {}}
     // />
-    <TasksList initialTasks={getTasks()} />
+    <>
+      <TasksList initialTasks={getTasks()} />
+      <TasksCompletionCard tasks={getTasks()} />
+    </>
   );
 }
