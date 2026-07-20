@@ -1,5 +1,5 @@
 import type { TaskStatus, TaskPriority } from "../../types/Task.ts";
-
+import TaskItem from "./TaskItem.tsx";
 interface TaskRowProps {
   title: string;
   status: TaskStatus;
@@ -17,25 +17,18 @@ export default function TaskRow({
   onEdit,
   onDelete,
 }: TaskRowProps) {
-  const parsedDueDate = dueDate instanceof Date ? dueDate : new Date(dueDate);
-  const formattedDate = Number.isNaN(parsedDueDate.getTime())
-    ? "Invalid date"
-    : parsedDueDate.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "2-digit",
-      });
-
   return (
-    <tr>
-      <td>{title}</td>
-      <td>{status}</td>
-      <td>{priority}</td>
-      <td>{formattedDate}</td>
-      <td>
-        <button onClick={onEdit}>Edit</button>
-        <button onClick={onDelete}>Delete</button>
-      </td>
-    </tr>
+    <TaskItem
+      title={title}
+      status={status}
+      priority={priority}
+      dueDate={dueDate}
+      additionalData={
+        <td>
+          <button onClick={onEdit}>Edit</button>
+          <button onClick={onDelete}>Delete</button>
+        </td>
+      }
+    />
   );
 }
