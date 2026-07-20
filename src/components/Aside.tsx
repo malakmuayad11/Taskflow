@@ -48,7 +48,7 @@ export default function Aside() {
               </a>
             </li>
           </ul>
-          <button>Log out</button>
+          <button className="text-white">Log out</button>
         </nav>
       </aside>
       <div
