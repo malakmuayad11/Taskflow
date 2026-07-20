@@ -25,6 +25,12 @@ export function deleteTask(id: number) {
 }
 
 export function getTasks(): Task[] {
-  const tasksJson = localStorage.getItem("tasks");
-  return tasksJson ? (JSON.parse(tasksJson) as Task[]) : [];
+  const storedTasks = localStorage.getItem("tasks");
+
+  if (!storedTasks) return [];
+
+  return JSON.parse(storedTasks).map((task: Task) => ({
+    ...task,
+    dueDate: new Date(task.dueDate),
+  }));
 }
