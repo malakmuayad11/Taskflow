@@ -7,6 +7,7 @@ import { getTasks } from "../services/localStorageService";
 import TasksByPriorityCard from "../components/TasksOverview/TasksByPriorityCard.tsx";
 import TasksDueSoonCard from "../components/TasksOverview/TasksDueSoonCard.tsx";
 import RecentTasksCard from "../components/TasksOverview/RecentTasksCard.tsx";
+import Aside from "../components/Aside.tsx";
 
 export default function App() {
   return (
@@ -19,11 +20,13 @@ export default function App() {
     //   onEdit={() => {}}
     // />
     <>
-      <TasksList initialTasks={getTasks()} />
+      <Aside />
+
+      {/* <TasksList initialTasks={getTasks()} />
       <TasksCompletionCard tasks={getTasks()} />
       <TasksByPriorityCard tasks={getTasks()} />
       <TasksDueSoonCard tasks={getTasks()} />
-      <RecentTasksCard tasks={getTasks()} />
+      <RecentTasksCard tasks={getTasks()} /> */}
     </>
   );
 }

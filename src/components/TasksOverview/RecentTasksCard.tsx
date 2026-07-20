@@ -24,7 +24,7 @@ export default function RecentTasksCard({ tasks }: { tasks: Task[] }) {
       </thead>
       <tbody>
         {getRecentTasks().map((task) => (
-          <TaskItem {...task} />
+          <TaskItem key={task.id} {...task} />
         ))}
       </tbody>
     </table>
