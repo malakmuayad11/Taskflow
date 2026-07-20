@@ -28,7 +28,7 @@ export default function Aside() {
               </a>
             </li>
             <li className="py-4 text-gray-300 md:p-4 hover:bg-blue-800/40 hover:rounded-md hover:cursor-pointer">
-              <a href="#" className="flex justify-start gap-1">
+              <a className="flex justify-start gap-1">
                 <img
                   src="src/assets/user.svg"
                   alt="User icon"

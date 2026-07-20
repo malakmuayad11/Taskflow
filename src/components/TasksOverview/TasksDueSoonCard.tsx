@@ -9,10 +9,12 @@ export default function TasksDueSoonCard({ tasks }: { tasks: Task[] }) {
 
   return (
     <table className="overflow-y-scroll">
-      {dueSoonTasks.length === 0 && <p>No tasks are ending soon.</p>}
-      {dueSoonTasks.map((task) => (
-        <TaskItem {...task} key={task.id} />
-      ))}
+      <tbody>
+        {dueSoonTasks.length === 0 && <p>No tasks are ending soon.</p>}
+        {dueSoonTasks.map((task) => (
+          <TaskItem {...task} key={task.id} />
+        ))}
+      </tbody>
     </table>
   );
 }
