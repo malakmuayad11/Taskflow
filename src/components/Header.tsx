@@ -1,4 +1,13 @@
-export default function Header() {
+// interface HeaderProps {
+//   asideRef: RefObject<HTMLElement>;
+//   btnCollapse: RefObject<HTMLElement>;
+// }
+
+export default function Header({
+  onCollapseClick,
+}: {
+  onCollapseClick: () => void;
+}) {
   return (
     <header className="flex gap-2 justify-between mt-0.5 border-b border-gray-500 p-1">
       <div className="flex justify-evenly shrink-0 gap-0.5">
@@ -6,6 +15,7 @@ export default function Header() {
           id="btnCollapse"
           data-collapse="false"
           className="cursor-pointer"
+          onClick={onCollapseClick}
         >
           <img
             src="src/assets/collapse.svg"
