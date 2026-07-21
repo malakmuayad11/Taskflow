@@ -64,7 +64,7 @@ export function addUser(user: User): Promise<IDBValidKey> {
   });
 }
 
-export function getUser(userId: string): Promise<User> {
+export function getUser(email: string): Promise<User> {
   return new Promise((resolve, reject) => {
     if (!db) {
       reject(new Error("Database is not initialized."));
@@ -73,25 +73,21 @@ export function getUser(userId: string): Promise<User> {
 
     const tx = db.transaction("users", "readonly");
     const store = tx.objectStore("users");
-    const req = store.get(userId);
+    const index = store.index("emailIndex");
+    const getRequest = index.get(email);
 
-    req.onsuccess = () => {
-      if (req.result === undefined) {
-        reject(new Error("User with id " + userId + " is not found"));
+    getRequest.onsuccess = () => {
+      const result = getRequest.result;
+
+      if (result) {
+        resolve(result as User);
       } else {
-        resolve({
-          userId,
-          firstName: req.result.firstName,
-          lastName: req.result.lastName,
-          email: req.result.email,
-          password: req.result.password,
-          profilePictureURL: req.result.profileImageURL,
-        } as User);
+        reject(new Error("User not found."));
       }
     };
 
-    req.onerror = () => {
-      reject(req.error ?? new Error("Error getting the user."));
+    getRequest.onerror = () => {
+      reject(getRequest.error ?? new Error("Error getting the user."));
     };
   });
 }

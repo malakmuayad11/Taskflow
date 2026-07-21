@@ -1,11 +1,11 @@
 // import Dashboard from "./pages/Dashboard.tsx";
 // import TasksBoard from "./components/Tasks/TasksBoard.tsx";
-import SignIn from "./components/auth/SignIn.tsx";
+import Login from "./components/auth/Login.tsx";
 // import Tasks from "./pages/Tasks.tsx";
 // import { getTasks } from "./services/localStorageService";
 
 export default function App() {
   // return <TasksBoard initialTasks={getTasks()} />;
   // return <Dashboard />;
-  return <SignIn />;
+  return <Login />;
 }
