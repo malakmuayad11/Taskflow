@@ -1,4 +1,5 @@
 import type { User } from "../types/User.ts";
+import { hashPassword } from "./HasherService.ts";
 
 let db: IDBDatabase | null = null;
 
@@ -24,7 +25,7 @@ request.onerror = function () {
   console.log(`Error opening DB: `, request.error);
 };
 
-export function addUser(user: User): Promise<IDBValidKey> {
+export async function addUser(user: User): Promise<IDBValidKey> {
   return new Promise((resolve, reject) => {
     if (!db) {
       reject(new Error("Database is not initialized."));
@@ -36,16 +37,20 @@ export function addUser(user: User): Promise<IDBValidKey> {
     const index = store.index("emailIndex");
     const checkRequest = index.get(user.email);
 
-    checkRequest.onsuccess = () => {
+    checkRequest.onsuccess = async () => {
       if (checkRequest.result) {
         reject(new Error("User with this email already exists"));
         return;
       }
 
+      const hashedPassword = await hashPassword(user.password);
+
       const userRecord = {
         ...user,
         userId: user.userId ?? crypto.randomUUID(),
+        password: hashedPassword,
       };
+
       const addRequest = store.add(userRecord);
 
       addRequest.onsuccess = () => {

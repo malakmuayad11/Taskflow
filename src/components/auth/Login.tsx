@@ -2,6 +2,7 @@ import type { FormEvent } from "react";
 import { getUser } from "../../services/indexedDbService.ts";
 import { useState } from "react";
 import "../../styles/index.css";
+import { hashPassword } from "../../services/HasherService.ts";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function Login() {
 
     try {
       const user = await getUser(email);
-      if (user && user.password === password) {
+      if (user && user.password === (await hashPassword(password))) {
         setIsFound(true);
         // go to the dashboard
       } else {
