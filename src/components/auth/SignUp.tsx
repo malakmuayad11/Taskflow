@@ -11,7 +11,7 @@ export default function SignUp() {
   const confirmPassword = useRef<HTMLInputElement | null>(null);
   const profilePictureURL = useRef<HTMLInputElement | null>(null);
 
-  async function signIn(event: FormEvent<HTMLFormElement>) {
+  async function signUp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (
@@ -48,7 +48,7 @@ export default function SignUp() {
   }
 
   return (
-    <form onSubmit={signIn}>
+    <form onSubmit={signUp}>
       <div>
         <label>First Name:</label>
         <input ref={firstName} type="text" required />
