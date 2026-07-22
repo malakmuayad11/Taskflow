@@ -1,4 +1,4 @@
-import SignIn from "../components/auth/SignIn.tsx";
+import SignUp from "../components/auth/SignUp.tsx";
 import Login from "../components/auth/Login.tsx";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ export default function StartPage() {
   }
   return (
     <>
-      {page === "sign-in" ? <SignIn /> : page === "log-in" ? <Login /> : null}
+      {page === "sign-in" ? <SignUp /> : page === "log-in" ? <Login /> : null}
       {!page && (
         <div>
           <h1>TaskFlow</h1>

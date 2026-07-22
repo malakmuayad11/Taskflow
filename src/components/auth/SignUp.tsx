@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { addUser } from "../../services/indexedDbService.ts";
 import "../../styles/index.css";
 
-export default function SignIn() {
+export default function SignUp() {
   const firstName = useRef<HTMLInputElement | null>(null);
   const lastName = useRef<HTMLInputElement | null>(null);
   const email = useRef<HTMLInputElement | null>(null);
