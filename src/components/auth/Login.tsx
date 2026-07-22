@@ -1,58 +1,70 @@
 import type { FormEvent } from "react";
 import { getUser } from "../../services/indexedDbService.ts";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "../../styles/index.css";
 import { hashPassword } from "../../services/HasherService.ts";
+import Dashboard from "../../pages/Dashboard.tsx";
+import { UserContext } from "../../context/userContext.ts";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isFound, setIsFound] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const setUser = useContext(UserContext)?.setUser;
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const user = await getUser(email);
+
       if (user && user.password === (await hashPassword(password))) {
-        setIsFound(true);
-        // go to the dashboard
+        setIsLoggedIn(true);
+        setUser?.(user);
       } else {
-        setIsFound(false);
+        setIsLoggedIn(false);
       }
     } catch {
-      setIsFound(false);
+      setIsLoggedIn(false);
     }
   }
 
   return (
-    <form onSubmit={login}>
-      <div
-        className={
-          isFound ? "hidden" : "bg-red-300 border border-red-500 p-2 m-2"
-        }
-      >
-        <p>Email or Password is wrong, please try again.</p>
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <>
+      {isLoggedIn && <Dashboard />}
+
+      {!isLoggedIn && (
+        <form onSubmit={login}>
+          <div
+            className={
+              !isLoggedIn
+                ? "hidden"
+                : "bg-red-300 border border-red-500 p-2 m-2"
+            }
+          >
+            <p>Email or Password is wrong, please try again.</p>
+          </div>
+          <div>
+            <label>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+      )}
+    </>
   );
 }

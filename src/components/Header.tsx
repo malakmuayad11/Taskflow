@@ -1,13 +1,14 @@
-// interface HeaderProps {
-//   asideRef: RefObject<HTMLElement>;
-//   btnCollapse: RefObject<HTMLElement>;
-// }
+import { useContext } from "react";
+import { UserContext } from "../context/userContext";
 
 export default function Header({
   onCollapseClick,
 }: {
   onCollapseClick: () => void;
 }) {
+  const user = useContext(UserContext)?.user;
+  const fullName = user?.firstName + " " + user?.lastName;
+
   return (
     <header className="flex gap-2 justify-between mt-0.5 border-b border-gray-500 p-1">
       <div className="flex justify-evenly shrink-0 gap-0.5">
@@ -35,11 +36,11 @@ export default function Header({
         </button>
         <div className="flex items-center gap-1 md:gap-2">
           <img
-            src="https://i.pravatar.cc/40"
-            alt="User Avatar"
+            src={user?.profilePictureURL ?? "src/assets/default-avatar.png"}
+            alt={"User Avatar"}
             className="object-cover rounded-full w-8 h-8"
           />
-          <span className="text-center">John Doe</span>
+          <span className="text-center">{fullName ?? "Unknown"}</span>
         </div>
       </div>
     </header>

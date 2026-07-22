@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { UserContext } from "../context/userContext.ts";
+
 export default function Aside({
   isCollapsed,
   onCollapseClick,
@@ -5,6 +8,13 @@ export default function Aside({
   isCollapsed: boolean;
   onCollapseClick: () => void;
 }) {
+  const setUser = useContext(UserContext)?.setUser;
+
+  function logout() {
+    setUser?.(null);
+    // go to the start page
+  }
+
   return (
     <>
       <aside
@@ -54,7 +64,9 @@ export default function Aside({
               </a>
             </li>
           </ul>
-          <button className="text-white">Log out</button>
+          <button className="text-white" onClick={logout}>
+            Log out
+          </button>
         </nav>
       </aside>
       <div
