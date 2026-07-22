@@ -1,10 +1,12 @@
 import { useState } from "react";
 import type { Task, TaskPriority, TaskStatus } from "../../types/Task";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 type AddEditTaskFormProps = {
   task?: Task;
   isAddMode: boolean;
-  onSave: (task: Task) => void;
+  onSave: (task: Omit<Task, "taskId">) => void;
   onCancel: () => void;
 };
 
@@ -20,13 +22,14 @@ export default function AddEditTaskForm({
     task?.priority ?? "Low",
   );
   const [dueDate, setDueDate] = useState<Date>(task?.dueDate ?? new Date());
+  const user = useContext(UserContext)?.user;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (isAddMode)
       onSave({
-        id: Date.now(),
+        userId: user?.userId ?? 0,
         title: title,
         priority: priority,
         status: status,

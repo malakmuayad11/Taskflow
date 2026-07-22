@@ -1,31 +1,10 @@
-import type { User } from "../types/User.ts";
-import { hashPassword } from "./HasherService.ts";
-
-let db: IDBDatabase | null = null;
-
-const request = indexedDB.open("TaskFlow", 2);
-
-request.onupgradeneeded = function () {
-  const openRequest = request as IDBOpenDBRequest;
-  db = openRequest.result;
-
-  if (!db.objectStoreNames.contains("users")) {
-    const store = db.createObjectStore("users", { keyPath: "userId" });
-    store.createIndex("emailIndex", "email", { unique: true });
-    console.log("Object store 'users' created.");
-  }
-};
-
-request.onsuccess = function () {
-  const openRequest = request as IDBOpenDBRequest;
-  db = openRequest.result;
-};
-
-request.onerror = function () {
-  console.log(`Error opening DB: `, request.error);
-};
+import type { User } from "../../types/User.ts";
+import { hashPassword } from "../HasherService.ts";
+import { getDB } from "./indexedDbService.ts";
 
 export async function addUser(user: User): Promise<IDBValidKey> {
+  const db = getDB();
+
   return new Promise((resolve, reject) => {
     if (!db) {
       reject(new Error("Database is not initialized."));
@@ -70,6 +49,8 @@ export async function addUser(user: User): Promise<IDBValidKey> {
 }
 
 export function getUser(email: string): Promise<User> {
+  const db = getDB();
+
   return new Promise((resolve, reject) => {
     if (!db) {
       reject(new Error("Database is not initialized."));

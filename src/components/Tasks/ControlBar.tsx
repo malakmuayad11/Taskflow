@@ -5,7 +5,7 @@ import AddEditTaskForm from "./AddEditTaskForm.tsx";
 type ControlBarProps = {
   onSearch: (title: string) => void;
   onFilterChange: (value: string) => void;
-  onAdd: (addedTask: Task) => void;
+  onAdd: (addedTask: Omit<Task, "taskId">) => void;
 };
 
 export default function ControlBar({
@@ -16,7 +16,7 @@ export default function ControlBar({
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [filter, setFilter] = useState("oldest");
 
-  function handleSave(addedTask: Task) {
+  function handleSave(addedTask: Omit<Task, "taskId">) {
     onAdd(addedTask);
     setIsAddingTask(false);
   }

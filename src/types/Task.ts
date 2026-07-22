@@ -3,7 +3,8 @@ export type TaskStatus = "In Progress" | "Todo" | "Completed";
 export type TaskPriority = "Low" | "Medium" | "High";
 
 export interface Task {
-  id: number;
+  taskId: number;
+  userId: number;
   title: string;
   status: TaskStatus;
   priority: TaskPriority;

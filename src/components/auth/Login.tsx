@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import { getUser } from "../../services/indexedDbService.ts";
+import { getUser } from "../../services/indexedDB/indexedDbService.ts";
 import { useState, useContext } from "react";
 import "../../styles/index.css";
 import { hashPassword } from "../../services/HasherService.ts";

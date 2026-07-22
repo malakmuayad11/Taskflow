@@ -1,6 +1,6 @@
 import type { Task } from "../../types/Task.ts";
 import { useState } from "react";
-import { addTask } from "../../services/localStorageService.ts";
+import { addTask } from "../../services/indexedDB/indexedDbService.ts";
 import AddEditTaskForm from "./AddEditTaskForm.tsx";
 import TasksColumn from "./TasksColumn";
 
@@ -8,11 +8,11 @@ export default function TasksBoard({ initialTasks }: { initialTasks: Task[] }) {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [tasks, setTasks] = useState(initialTasks);
 
-  function handleAddTask(task: Task) {
-    addTask(task); // add it to local storage
-    setTasks((previousTasks) => [...previousTasks, task]); // refresh the UI
+  function handleAddTask(task: Omit<Task, "taskId">) {
+    addTask(task as Task); // add it to indexedDB
+    setTasks((previousTasks) => [...previousTasks, task as Task]); // refresh the UI
   }
-  function handleSave(addedTask: Task) {
+  function handleSave(addedTask: Omit<Task, "taskId">) {
     handleAddTask(addedTask);
     setIsAddingTask(false);
   }

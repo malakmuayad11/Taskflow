@@ -12,7 +12,7 @@ export default function TasksDueSoonCard({ tasks }: { tasks: Task[] }) {
       <tbody>
         {dueSoonTasks.length === 0 && <p>No tasks are ending soon.</p>}
         {dueSoonTasks.map((task) => (
-          <TaskItem {...task} key={task.id} />
+          <TaskItem {...task} key={task.taskId} />
         ))}
       </tbody>
     </table>

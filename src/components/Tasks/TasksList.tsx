@@ -6,7 +6,7 @@ import {
   addTask,
   updateTask,
   deleteTask,
-} from "../../services/localStorageService.ts";
+} from "../../services/indexedDB/indexedDbService.ts";
 import AddEditTaskForm from "./AddEditTaskForm.tsx";
 import PaginationRow from "./PaginationRow.tsx";
 import { paginateArray } from "../../services/paginationService.tsx";
@@ -27,34 +27,38 @@ export default function TasksList({ initialTasks }: { initialTasks: Task[] }) {
   function handleFilterChange(filter: string) {
     if (filter.toLowerCase() === "newest")
       setTasks((previousTasks) =>
-        [...previousTasks].sort((a, b) => b.id - a.id),
+        [...previousTasks].sort((a, b) => b.taskId - a.taskId),
       );
 
     if (filter.toLocaleLowerCase() === "oldest")
       setTasks((previousTasks) =>
-        [...previousTasks].sort((a, b) => a.id - b.id),
+        [...previousTasks].sort((a, b) => a.taskId - b.taskId),
       );
   }
 
-  function handleAddTask(task: Task) {
-    addTask(task); // add it to local storage
-    setTasks((previousTasks) => [...previousTasks, task]); // refresh the UI
+  function handleAddTask(task: Omit<Task, "taskId">) {
+    const newTask: Task = { ...task, taskId: Date.now() };
+    addTask(newTask); // add it to indexedDB
+    setTasks((previousTasks) => [...previousTasks, newTask]); // refresh the UI
   }
 
   function handleDelete(id: number) {
-    deleteTask(id); // remove from local storage
-    setTasks((previousTasks) => previousTasks.filter((task) => task.id !== id)); // refresh the UI
+    deleteTask(id); // remove from indexedDB
+    setTasks((previousTasks) =>
+      previousTasks.filter((task) => task.taskId !== id),
+    ); // refresh the UI
   }
 
   function handleEdit(task: Task) {
     setEditingTask(task);
   }
 
-  function handleSave(updatedTask: Task) {
-    updateTask(updatedTask); // update the local storage
+  function handleSave(taskData: Omit<Task, "taskId">) {
+    const updatedTask: Task = { ...taskData, taskId: editingTask!.taskId };
+    updateTask(updatedTask); // update the indexedDB
     setTasks((previousTasks) =>
       previousTasks.map((task) =>
-        task.id === updatedTask.id ? updatedTask : task,
+        task.taskId === updatedTask.taskId ? updatedTask : task,
       ),
     ); // refresh the UI
     setEditingTask(null);

@@ -1,9 +1,7 @@
 import StatCard from "./StatCard.tsx";
-import { getTasks } from "../../services/localStorageService.ts";
+import type { Task } from "../../types/Task.ts";
 
-export default function Statistics() {
-  const tasks = getTasks();
-
+export default function Statistics({ tasks }: { tasks: Task[] }) {
   return (
     <section>
       <StatCard title="Total Tasks" statNumber={tasks.length} imageURL="" />

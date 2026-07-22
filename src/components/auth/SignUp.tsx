@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import type { FormEvent } from "react";
-import { addUser } from "../../services/indexedDbService.ts";
+import { addUser } from "../../services/indexedDB/indexedDbService.ts";
 import "../../styles/index.css";
 
 export default function SignUp() {

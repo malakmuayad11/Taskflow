@@ -6,7 +6,7 @@ import { useState } from "react";
 type TasksColumnProps = {
   status: TaskStatus;
   tasks: Task[];
-  onAdd: (task: Task) => void;
+  onAdd: (task: Omit<Task, "taskId">) => void;
 };
 
 export default function TasksColumn({
@@ -17,7 +17,7 @@ export default function TasksColumn({
   const tasksByStatus = tasks.filter((task) => task.status === status);
   const [isAddingTask, setIsAddingTask] = useState(false);
 
-  function handleSave(addedTask: Task) {
+  function handleSave(addedTask: Omit<Task, "taskId">) {
     onAdd(addedTask);
     setIsAddingTask(false);
   }
@@ -43,7 +43,7 @@ export default function TasksColumn({
           </div>
           {tasksByStatus.map((task) => (
             <TaskCard
-              key={task.id}
+              key={task.taskId}
               title={task.title}
               dueDate={task.dueDate}
               priority={task.priority}
